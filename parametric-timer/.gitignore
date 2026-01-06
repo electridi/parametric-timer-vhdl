@@ -1,0 +1,8 @@
+# VHDL compilation artifacts
+work/
+vunit_out/
+*.o
+*.cf
+*.ghw
+*.vcd
+.DS_Store
