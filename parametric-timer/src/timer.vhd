@@ -36,7 +36,7 @@ architecture rtl of timer is
     ---------------------------------------------------------------------------
 
     -- Total number of cycles: (delay in ns * frequency in Hz) / 10^9
-    constant TOTAL_CYCLES : unsigned(63 downto 0) := (to_unsigned(delay_g / 1 ns, 64) * to_unsigned(clk_freq_hz_g, 64)) / 1000000000;
+    constant TOTAL_CYCLES : unsigned(63 downto 0) := resize((to_unsigned(delay_g / 1 ns, 64) * to_unsigned(clk_freq_hz_g, 64)) / 1000000000, 64);
 
     -- Registers
     signal count_reg : unsigned(63 downto 0) := (others => '0');   -- To store the counter's actual value
