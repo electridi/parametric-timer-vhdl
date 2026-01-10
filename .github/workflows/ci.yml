@@ -1,0 +1,37 @@
+name: VHDL CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vhdl-verification:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup GHDL
+        uses: ghdl/setup-ghdl-ci@v1
+        with:
+          backend: mcode
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # To avoid errors with the latest version of ghdl
+          pip install "vunit_hdl>=5.0.0.dev3"
+
+      - name: Run VUnit Tests
+        run: python parametric-timer/run.py -v
+        env:
+          VUNIT_SIMULATOR: ghdl
+          VUNIT_GHDL_BACKEND: mcode
