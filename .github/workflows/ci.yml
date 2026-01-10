@@ -15,9 +15,9 @@ jobs:
 
       # GHDL Setup
       - name: Setup GHDL
-        uses: ghdl/setup-ghdl-ci@master
-        with:
-          backend: mcode
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghdl
 
       # Python Setup
       - name: Setup Python
