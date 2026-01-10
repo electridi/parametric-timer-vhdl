@@ -1,0 +1,39 @@
+name: VHDL CI Pipeline
+
+# Trigger
+on: [push]
+
+jobs:
+  vhdl-verification:
+    name: Run VHDL Tests
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Repo-code Download
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # GHDL Setup
+      - name: Setup GHDL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghdl
+
+      # Python Setup
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # VUnit Setup with a specific version to avoid incompatibility errors with ghdl
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "vunit_hdl>=5.0.0.dev3"
+
+      # Testbench Execution
+      - name: Run VUnit Tests
+        run: python parametric-timer/run.py -v
+        env:
+          VUNIT_SIMULATOR: ghdl
+          VUNIT_GHDL_BACKEND: mcode
