@@ -6,7 +6,7 @@ on: [push]
 jobs:
   vhdl-verification:
     name: Run VHDL Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # Repo-code Download
